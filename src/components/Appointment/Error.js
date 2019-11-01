@@ -12,7 +12,7 @@ export default function Error(props) {
   <img
     className="appointment__error-close"
     src="images/close.png"
-    alt={props.onClose}
+    onClick={props.onClose}
   />
 </main>
   )
