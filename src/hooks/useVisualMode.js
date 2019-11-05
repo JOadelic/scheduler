@@ -13,16 +13,26 @@ export default function useVisualMode(initial) {
     };
   }
 
+  // function back() {
+  //   if (history.length > 1) {
+  //     // setHistory(hist => hist.slice(1));
+  //     // setHistory(([_, ...hist]) => hist);
+  //     let historyCopy = [...history];
+  //     historyCopy.pop();
+  //     let something = historyCopy.slice(-1)[0]
+  //     setMode(something)
+  //   }
+  // }
+
   function back() {
     if (history.length > 1) {
-      // setHistory(hist => hist.slice(1));
-      // setHistory(([_, ...hist]) => hist);
-      let historyCopy = [...history];
-      historyCopy.pop();
-      let something = historyCopy.slice(-1)[0]
-      setMode(something)
+      history.pop();
+      setMode(history[history.length - 1]);
+    } else {
+      setMode(history[0]);
     }
   }
+
 
   return { mode, transition, back }
 }

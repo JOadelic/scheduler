@@ -13,6 +13,7 @@ export default function Error(props) {
     className="appointment__error-close"
     src="images/close.png"
     onClick={props.onClose}
+    alt=""
   />
 </main>
   )

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import React from "react";
+// import axios from 'axios';
 import "components/Application.scss";
 import DayList from "components/DayList.js";
 import Appointment from "components/Appointment";
@@ -86,7 +86,6 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
-        // interviewer={interviewer}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
       />

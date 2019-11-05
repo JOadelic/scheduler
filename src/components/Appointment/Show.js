@@ -2,8 +2,8 @@ import React from "react";
 import "./styles.scss";
 
 export default function Show(props) {
-  console.log('interviewers', props)
-  console.log('students', props.student)
+  // console.log('interviewers', props)
+  // console.log('students', props.student)
 
   return (
     <main className="appointment__card appointment__card--show">

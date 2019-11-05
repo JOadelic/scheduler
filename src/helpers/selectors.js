@@ -89,7 +89,7 @@ function getInterviewersForDay(state, day) {
     return
   }
   for (let days of state.days) {
-    console.log(days)
+    // console.log(days)
     if (days.name === day && days.interviewers) {
       theInterviewers = days.interviewers.map(
         id => state.interviewers[id]

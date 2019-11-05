@@ -14,7 +14,7 @@ export default function useApplicationData() {
       case SET_APPLICATION_DATA:
         return { ...state, ...action.value }
       case SET_INTERVIEW: 
-        return { ...state, appointments: action.appointments }
+        return { ...state, appointments: action.appointments, days: action.days }
       
     }
   }
@@ -26,8 +26,17 @@ export default function useApplicationData() {
   });
   const setDay = day => dispatch({ type: SET_DAY, value: day });
 
+  const checkDay = (id) => {
+    let dayID = null;
+    for (const obj of state.days) {
+      if (obj.appointments.includes(id)) {
+        dayID = obj.id;
+      }
+    }
+    return dayID;
+  }
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, changeSpots = false) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -36,24 +45,19 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+
+    const days = state.days.map( day => {
+      return (changeSpots ? day.id === checkDay(id) ? { ...day, spots: day.spots - 1 } : { ...day } : { ...day })
+    });
+
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
-        dispatch({ type: SET_INTERVIEW, appointments })
-        Promise.all([
-          axios.get("/api/days"),
-          axios.get("/api/appointments"),
-          axios.get("/api/interviewers"),
-        ]).then((all) => {
-          //  dispatch(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
-          dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } });
-            // console.log('this is all========',all[0].data[0].spots) // this is the number of spots
-        })
-    
+        dispatch({ type: SET_INTERVIEW, appointments, days })
       }) 
   }
 
 
-  function cancelInterview(id, interview) {
+  function cancelInterview(id) {
 
     return axios.delete(`/api/appointments/${id}`).then(() => {
       const appointment = {
@@ -61,24 +65,17 @@ export default function useApplicationData() {
         interview: null
       };
 
-      // const appointments = {
-      //   ...state.appointments,
-      //   [id]: appointment
-      // };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      }
 
-      // dispatch({
-      //   type: SET_INTERVIEW,
-      //    appointments
-      // });
-      Promise.all([
-        axios.get("/api/days"),
-        axios.get("/api/appointments"),
-        axios.get("/api/interviewers"),
-      ]).then((all) => {
-        //  dispatch(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
-        dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } });
-          // console.log('this is all========',all[0].data[0].spots) // this is the number of spots
-      })
+      const days = state.days.map( day => {
+        return (day.id === checkDay(id) ? { ...day, spots: day.spots + 1 } : { ...day })
+      });
+
+      return axios.delete(`/api/appointments/${id}`)
+      .then(() => dispatch({ type: SET_INTERVIEW, appointments, days}))
     })
   };
 
@@ -91,8 +88,7 @@ export default function useApplicationData() {
     ]).then((all) => {
       //  dispatch(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
       dispatch({ type: SET_APPLICATION_DATA, value: { days: all[0].data, appointments: all[1].data, interviewers: all[2].data } });
-        // console.log('this is all========',all[0].data[0].spots) // this is the number of spots
-    })
+   })
   }, []);
 
 

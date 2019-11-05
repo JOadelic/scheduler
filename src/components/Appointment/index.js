@@ -37,14 +37,14 @@ export default function Appointment(props) {
   }, [])
 
 
-  function save(name, interviewer) {
+  function save(name, interviewer, changeSpots) {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING)
     
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, changeSpots)
       .then(() => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true))
   }
@@ -67,9 +67,10 @@ export default function Appointment(props) {
 
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       <div>
+        { console.log(mode, props) }
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && props.interview && (
           <Show
@@ -82,13 +83,14 @@ export default function Appointment(props) {
         {mode === CREATE &&
           <Form
             interviewers={props.interviewers}
-            onSave={(name, interviewer) => save(name, interviewer)}
-            onCancel={() => back()}
+            onSave={(name, interviewer, changeSpots) => save(name, interviewer, changeSpots)}
+            onCancel={back}
+            isSave={true}
           />}
         {mode === SAVING && <Status message="Saving" />}
         {mode === CONFIRM && (
           <Confirm
-            message="Are you sure you want to delete?"
+            message="Are you sure you would like to delete?"
             onCancel={() => transition(SHOW)}
             onConfirm={() => destroy()}
           />

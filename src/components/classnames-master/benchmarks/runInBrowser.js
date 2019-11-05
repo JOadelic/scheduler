@@ -8,7 +8,7 @@ var npmDedupe = require('classnames/dedupe');
 var npmPackage = require('./node_modules/classnames/package.json');
 
 function log (message) {
-	console.log(message);
+	// console.log(message);
 	var results = document.getElementById('results');
 	//noinspection InnerHTMLJS
 	results.innerHTML += (message + '\n').replace(/\n/g, '<br/>');
