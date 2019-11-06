@@ -3,7 +3,6 @@ import "./styles.scss";
 import Button from "../Button.js"
 
 export default function Confirm(props) {
-  // console.log('these are props ', props)
   
   return (
     <main className="appointment__card appointment__card--confirm">

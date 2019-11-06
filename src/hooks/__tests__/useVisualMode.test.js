@@ -19,7 +19,7 @@ test("useVisualMode should transition to another mode", () => {
 });
 
 const THIRD = "THIRD"; // fix this test
-test.skip("useVisualMode should return to previous mode", () => {
+test("useVisualMode should return to previous mode", () => {
   const { result } = renderHook(() => useVisualMode(FIRST));
 
   act(() => result.current.transition(SECOND));

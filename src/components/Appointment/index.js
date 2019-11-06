@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./styles.scss";
-// import classNames from "classnames";
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
@@ -45,16 +44,16 @@ export default function Appointment(props) {
     transition(SAVING)
     
     props.bookInterview(props.id, interview, changeSpots)
-      .then(() => transition(SHOW))
+      .then(() => transition(SHOW, true))
       .catch(error => transition(ERROR_SAVE, true))
   }
 
-  function cancel() {
-    transition(DELETE, true)
-    props.cancelInterview(props.id)
-      .then(() => transition(EMPTY))
-      .catch(error => transition(ERROR_DELETE, true))
-  }
+  // function cancel() {
+  //   transition(DELETE, true)
+  //   props.cancelInterview(props.id)
+  //     .then(() => transition(EMPTY))
+  //     .catch(error => transition(ERROR_DELETE, true))
+  // }
 
   function destroy() {
     transition(DELETE, true);
@@ -70,7 +69,6 @@ export default function Appointment(props) {
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       <div>
-        { console.log(mode, props) }
         {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
         {mode === SHOW && props.interview && (
           <Show

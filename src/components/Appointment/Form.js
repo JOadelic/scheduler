@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from "../Button.js"
 import InterviewerList from "../InterviewerList.js";
 import "./styles.scss";
-import { validate } from '@babel/types';
+// import { validate } from '@babel/types';
 
 export default function Form(props) {
   const [name, setName] = useState(props.name || "")
@@ -17,7 +17,7 @@ export default function Form(props) {
     reset()
     props.onCancel()
   }
-
+  // if there is no interviewer app crashes
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
@@ -39,9 +39,6 @@ export default function Form(props) {
         type="text"
         placeholder="Enter Student Name"
         value = {name}
-        /*
-          This must be a controlled component
-        */
        onChange={event => setName(event.target.value)}
        data-testid="student-name-input"
 
