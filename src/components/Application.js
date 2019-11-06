@@ -1,5 +1,4 @@
 import React from "react";
-// import axios from 'axios';
 import "components/Application.scss";
 import DayList from "components/DayList.js";
 import Appointment from "components/Appointment";

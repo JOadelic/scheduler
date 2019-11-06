@@ -1,7 +1,6 @@
 import React from "react";
 import "./DayListItem.scss";
 import classNames from 'classnames';
-// import { render } from "@testing-library/react";
 
 export default function DayListItem(props) {
 

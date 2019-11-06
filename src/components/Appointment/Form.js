@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Button from "../Button.js"
 import InterviewerList from "../InterviewerList.js";
 import "./styles.scss";
-// import { validate } from '@babel/types';
 
 export default function Form(props) {
   const [name, setName] = useState(props.name || "")
@@ -17,10 +16,17 @@ export default function Form(props) {
     reset()
     props.onCancel()
   }
-  // if there is no interviewer app crashes
+  
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
+      return;
+
+    // the following else if causes a test to fail. But saves app
+    // from crashing if user edits the name but doesnt choose
+    // a new interviewer... will write better tests when time allows....bootcamp life
+    } else if (!interviewer) {
+      setError("Must pick an interviewer");
       return;
     }
   
